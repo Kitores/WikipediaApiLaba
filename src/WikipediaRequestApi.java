@@ -1,7 +1,8 @@
+import java.awt.Desktop;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.net.URLEncoder;
@@ -10,6 +11,7 @@ import java.net.HttpURLConnection;
 
 import com.google.gson.*;
 
+import javax.swing.*;
 import java.util.List;
 
 class Translation {
@@ -32,13 +34,11 @@ public class WikipediaRequestApi {
         try{
             String search = ReadConsole();
             String response = SendGetRequest(search);
-            parse(response);
+            int[] pageIdArr = parse(response);
+            Browse(pageIdArr);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    public static void Print(String arr) {
-        System.out.println(arr);
     }
     // Read from console
     private static String ReadConsole() throws IOException{
@@ -46,7 +46,7 @@ public class WikipediaRequestApi {
         StringBuilder stringBuilder = new StringBuilder(API_URL);
         String userInput = scanner.nextLine();
         stringBuilder.append(userInput);
-        scanner.close();
+//        scanner.close();
         return String.valueOf(stringBuilder);
     }
     // Send Request
@@ -80,19 +80,39 @@ public class WikipediaRequestApi {
         }
     }
 
-    public static void parse(String jsonData) {
+    public static int[] parse(String jsonData) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(jsonData, JsonObject.class);
 
         var SearchResults = jsonObject.getAsJsonObject("query").getAsJsonArray("search");
 
+        int k = 0;
+        int[] pageIdArray;
+        pageIdArray = new int[100];
+
         for (var result : SearchResults) {
             String title = result.getAsJsonObject().get("title").getAsString();
             int pageId = result.getAsJsonObject().get("pageid").getAsInt();
+
+            pageIdArray[k] = pageId;
+            k++;
+
             String ResponseUrl = RESP_URL + pageId;
 
-            System.out.println("Title: " + title);
+            System.out.println("Title: " + title + " " + k);
             System.out.println("Response URL: " + ResponseUrl);
+        }
+        return pageIdArray;
+    }
+    public static void Browse(int[] pageIdArr) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int NumOfPageId = scanner.nextInt();
+            URI uri = new URI(RESP_URL + pageIdArr[NumOfPageId - 1]);
+            Desktop desktop = Desktop.getDesktop();
+            desktop.browse(uri);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
