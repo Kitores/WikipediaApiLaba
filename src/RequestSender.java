@@ -5,7 +5,6 @@ public class RequestSender {
     // Send Request
     public static String SendGetRequest(String searchQuery) throws Exception
     {
-//        String encodedTitle = URLEncoder.encode(searchQuery, "UTF-8");
         String urlString = WikipediaRequestApi.API_URL + searchQuery;
         System.out.println(urlString);
         URL url = new URL(urlString);

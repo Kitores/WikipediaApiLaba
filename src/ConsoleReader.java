@@ -8,7 +8,6 @@ public class ConsoleReader {
         StringBuilder stringBuilder = new StringBuilder(WikipediaRequestApi.API_URL);
         String userInput = scanner.nextLine();
         stringBuilder.append(userInput);
-//        scanner.close();
         return String.valueOf(stringBuilder);
     }
 }

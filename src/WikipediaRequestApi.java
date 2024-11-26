@@ -1,7 +1,5 @@
-import java.util.List;
 
 public class WikipediaRequestApi {
-//    private static final String API_URL = "https://ru.wikipedia.org/w/api.php";
     public static final String RESP_URL = "https://ru.wikipedia.org/w/index.php?curid=";
     public static final String API_URL = "https://ru.wikipedia.org/w/api.php?action=query&list=search&utf8=&format=json&srsearch=";
     public static void main(String[] args) {
