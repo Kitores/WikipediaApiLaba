@@ -3,12 +3,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 public class ResponseGetter {
+    static int responseCode;
+    static BufferedReader reader;
+    static StringBuilder responseContent;
+    static String inputLine;
+
     public static String getResponse(HttpURLConnection connection) throws Exception{
-        int responseCode = connection.getResponseCode();
+            responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder responseContent = new StringBuilder();
-            String inputLine;
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            responseContent = new StringBuilder();
+
             while ((inputLine = reader.readLine()) != null) {
                 responseContent.append(inputLine);
             }

@@ -2,6 +2,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleReader {
+    static Scanner scanner;
+    static StringBuilder stringBuilder;
+    static String userInput;
+
     // Read from console
     public static String ReadConsole() throws IOException {
         Scanner scanner = new Scanner(System.in);

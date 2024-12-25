@@ -2,13 +2,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RequestSender {
+    static String urlString;
+    static URL url;
+    static HttpURLConnection connection;
+
     // Send Request
     public static String SendGetRequest(String searchQuery) throws Exception
     {
-        String urlString = WikipediaRequestApi.API_URL + searchQuery;
+        urlString = WikipediaRequestApi.API_URL + searchQuery;
         System.out.println(urlString);
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        url = new URL(urlString);
+        connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         try {
             return ResponseGetter.getResponse(connection);

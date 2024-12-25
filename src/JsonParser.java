@@ -2,14 +2,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class JsonParser {
+    static Gson gson;
+    static JsonObject jsonObject;
+    static int[] pageIdArray;
+
     public static int[] parse(String jsonData) {
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(jsonData, JsonObject.class);
+        gson = new Gson();
+       jsonObject = gson.fromJson(jsonData, JsonObject.class);
 
         var SearchResults = jsonObject.getAsJsonObject("query").getAsJsonArray("search");
 
         int k = 0;
-        int[] pageIdArray;
         pageIdArray = new int[100];
 
         for (var result : SearchResults) {
